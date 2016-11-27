@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +26,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.news.R;
 import com.example.news.utils.Constants;
+import com.example.news.utils.NetworkCheck;
 import com.example.news.utils.News;
 import com.example.news.utils.NewsItem;
 import com.example.news.utils.SingletonRequestQueue;
@@ -59,7 +61,12 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         String newsId = getIntent().getStringExtra(Constants.NEWS_ID_EXTRA);
-        new GetData().execute("http://egyptinnovate.com/en/api/v01/safe/GetNewsDetails?nid="+newsId);
+        if(NetworkCheck.isNetworkAvailable(this)) {
+            new GetData().execute("http://egyptinnovate.com/en/api/v01/safe/GetNewsDetails?nid=" + newsId);
+        }else{
+            Toast.makeText(this,"Check your internet connection and try again!",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
 
