@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">News</string>
+    <string name="filter_action">filter</string>
+    <string name="share_action">share</string>
+
+    <!-- string array to store nav. view strings -->
+    <string-array name="nav_view_item_strings">
+        <item>news</item>
+        <item>innovation map</item>
+        <item>events calendar</item>
+        <item>leadership thoughts</item>
+    </string-array>
+
+    <!-- typed array to store nav. view drawables -->
+    <array name="nav_view_item_drawables">
+        <item>@drawable/news_icon</item>
+        <item>@drawable/map_icon</item>
+        <item>@drawable/events_icon</item>
+        <item>@drawable/leadership_icon</item>
+    </array>
+</resources>

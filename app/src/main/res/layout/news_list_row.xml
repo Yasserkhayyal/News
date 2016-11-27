@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/news_list_row_bg">
+
+    <ImageView
+        android:id="@+id/news_image"
+        app:layout_widthPercent="30%"
+        app:layout_heightPercent="82%"
+        app:layout_marginLeftPercent="3%"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/news_title"
+        app:layout_widthPercent="39%"
+        app:layout_heightPercent="41%"
+        app:layout_marginLeftPercent="5%"
+        android:layout_toRightOf="@+id/news_image"
+        android:layout_alignTop ="@+id/news_image"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/news_label"
+        app:layout_widthPercent="22%"
+        app:layout_heightPercent="41%"
+        android:foregroundGravity="right"
+        android:layout_alignTop="@+id/news_image"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/news_date"
+        app:layout_widthPercent="25%"
+        app:layout_heightPercent="41%"
+        app:layout_marginLeftPercent="5%"
+        android:layout_toRightOf="@+id/news_image"
+        android:layout_alignBottom="@+id/news_image"
+        android:textSize="10sp"
+        android:gravity="bottom"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/news_likes"
+        app:layout_widthPercent="20%"
+        app:layout_heightPercent="41%"
+        android:layout_toRightOf="@+id/news_date"
+        android:layout_alignBottom="@+id/news_image"
+        android:textSize="10sp"
+        android:gravity="bottom"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/news_views"
+        app:layout_widthPercent="20%"
+        app:layout_heightPercent="41%"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10sp"
+        android:layout_alignBottom="@+id/news_image"
+        android:gravity="bottom"
+        android:layout_alignParentRight="true" />
+
+
+</android.support.percent.PercentRelativeLayout>

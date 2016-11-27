@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/f_level"
+    android:paddingLeft="16dp"
+    android:paddingTop="8dp"
+    android:paddingRight="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:background="@drawable/news_list_row_bg">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="match_parent"
+            app:layout_heightPercent="37.5%"
+            android:contentDescription="@null"/>
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            app:layout_marginTopPercent="7%"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            style="@style/ShadowOverlayText"/>
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/item_image"
+            android:background="@color/colorPrimary"
+            app:layout_heightPercent="12.5%"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_weight="5"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.1"
+                android:background="@color/white" />
+
+            <ImageView
+                android:id="@+id/likes_icon_image_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:tint="@color/mango"
+                android:scaleType="fitCenter"
+                android:src="@drawable/likes_icon"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/likes_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/mango"
+                android:layout_weight="4"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:layout_weight="0.1"/>
+
+            <ImageView
+                android:id="@+id/shows_icon_image_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/views_icon"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/shows_text_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:layout_weight="4"/>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_below="@+id/linear_layout"
+            app:layout_marginPercent="5%"
+            app:layout_marginLeftPercent="2%"
+            app:layout_marginRightPercent="2%"
+            app:layout_heightPercent="50%">
+            <TextView
+                android:id="@+id/news_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+        </ScrollView>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="-10dp"
+        android:contentDescription="@null"
+        android:background="@drawable/bottom_framelayout_bg" />
+
+</LinearLayout>
