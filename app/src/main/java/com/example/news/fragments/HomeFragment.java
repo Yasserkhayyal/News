@@ -1,10 +1,13 @@
 package com.example.news.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +42,14 @@ public class HomeFragment extends Fragment {
     ListView listView;
     NewsItemsAdapter adapter;
     List<NewsItem> newsItems;
+    Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;/*work around to get rid of null pointer exception that may results from
+        calling getActivity*/
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,10 +63,10 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.home_fagment,container,false);
         listView = (ListView) view.findViewById(R.id.news_list_view);
         //fire data request
-        if(NetworkCheck.isNetworkAvailable(getActivity())) {
+        if(NetworkCheck.isNetworkAvailable(mContext)) {
             new GetData().execute("http://egyptinnovate.com/en/api/v01/safe/GetNews");
         }else{
-            Toast.makeText(getActivity(),"Check your internet connection and try again!",
+            Toast.makeText(mContext,"Check your internet connection and try again!",
                     Toast.LENGTH_LONG).show();
         }
         return view;
@@ -68,7 +79,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
             // Get a RequestQueue
-            RequestQueue queue = SingletonRequestQueue.getInstance(getActivity()).
+            RequestQueue queue = SingletonRequestQueue.getInstance((mContext)).
                     getRequestQueue();
 
             final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -100,19 +111,19 @@ public class HomeFragment extends Fragment {
 
 
     private void setAdapter(final List<NewsItem> list){
-        getActivity().runOnUiThread(new Runnable() {
+        ((AppCompatActivity)mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(list!=null ){
                     if(!list.isEmpty()) {
-                        getActivity().supportInvalidateOptionsMenu();
-                        adapter = new NewsItemsAdapter(getActivity(), list);
+                        ((AppCompatActivity)mContext).supportInvalidateOptionsMenu();
+                        adapter = new NewsItemsAdapter(mContext, list);
                         listView.setAdapter(adapter);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int position,
                                                     long rowId) {
-                                Intent startDetailsActivity = new Intent(getActivity(),
+                                Intent startDetailsActivity = new Intent(mContext,
                                         DetailsActivity.class);
                                 startDetailsActivity.putExtra(Constants.NEWS_ID_EXTRA,
                                         newsItems.get(position).getNid());
@@ -121,7 +132,7 @@ public class HomeFragment extends Fragment {
                         });
                     }
                 }else{
-                    Toast.makeText(getActivity(),"Oops!..something went wrong",
+                    Toast.makeText(mContext,"Oops!..something went wrong",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -151,5 +162,11 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
     }
 }

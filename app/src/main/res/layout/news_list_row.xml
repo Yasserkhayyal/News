@@ -5,10 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/news_list_row_bg">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/news_image"
         app:layout_widthPercent="30%"
         app:layout_heightPercent="82%"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorPrimary"
         app:layout_marginLeftPercent="3%"
         android:layout_centerVertical="true"
         android:contentDescription="@null" />

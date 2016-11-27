@@ -2,6 +2,9 @@ package com.example.news.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
+import android.provider.ContactsContract;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
@@ -19,13 +22,14 @@ import com.example.news.utils.NewsItem;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Mohamed Yasser on 11/26/2016.
  */
 public class NewsItemsAdapter extends BaseAdapter {
     Context mContext;
     List<NewsItem> newsItems;
-    ViewHolder viewHolder;
 
 
     public NewsItemsAdapter(Context context,List<NewsItem> newsItems){
@@ -49,6 +53,7 @@ public class NewsItemsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        ViewHolder viewHolder;
         if(view==null){
             view = LayoutInflater.from(mContext).inflate(R.layout.news_list_row, viewGroup,
                     false);
@@ -57,18 +62,19 @@ public class NewsItemsAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
+        final CircleImageView imageView = viewHolder.news_image;
         Glide.with(mContext).load(newsItems.get(position).getImageUrl())
                 .asBitmap()
                 .priority(Priority.IMMEDIATE)
                 .placeholder(R.drawable.news_image_placeholder).centerCrop()
-                .into(new BitmapImageViewTarget(viewHolder.news_image) {
+                .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(mContext.getResources(),
-                                Bitmap.createScaledBitmap(resource, viewHolder.news_image.getWidth()
-                                        , viewHolder.news_image.getHeight(), false));
+                                Bitmap.createScaledBitmap(resource, imageView.getWidth()
+                                        , imageView.getHeight(), false));
                         drawable.setCircular(true);
-                        viewHolder.news_image.setImageDrawable(drawable);
+                        imageView.setImageDrawable(drawable);
                     }});
 
         viewHolder.news_title.setText(newsItems.get(position).getNewsTitle());
@@ -87,11 +93,12 @@ public class NewsItemsAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder{
-        ImageView news_image,news_label;
+        ImageView news_label;
+        CircleImageView news_image;
         TextView news_title,news_date,news_likes,news_views;
 
         public ViewHolder(View view){
-            news_image = (ImageView) view.findViewById(R.id.news_image);
+            news_image = (CircleImageView) view.findViewById(R.id.news_image);
             news_label = (ImageView) view.findViewById(R.id.news_label);
             news_title = (TextView) view.findViewById(R.id.news_title);
             news_date = (TextView) view.findViewById(R.id.news_date);

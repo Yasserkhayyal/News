@@ -1,10 +1,13 @@
 package com.example.news.activities;
 
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.news.R;
 import com.example.news.utils.Constants;
 import com.example.news.utils.News;
@@ -97,9 +102,17 @@ public class DetailsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     supportInvalidateOptionsMenu();
-                    Glide.with(DetailsActivity.this).load(item.getImageUrl())
+                    Glide.with(DetailsActivity.this).load(item.getImageUrl()).asBitmap()
                             .placeholder(R.drawable.news_image_placeholder).centerCrop()
-                            .into(item_image);
+                            .into(new BitmapImageViewTarget(item_image) {
+                                @Override
+                                protected void setResource(Bitmap resource) {
+                                    RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(),
+                                            Bitmap.createScaledBitmap(resource, item_image.getWidth()
+                                                    , item_image.getHeight(), false));
+                                    drawable.setCornerRadius(20);
+                                    item_image.setImageDrawable(drawable);
+                                }});
 
                     item_image.setColorFilter(0X33000000, PorterDuff.Mode.SRC_ATOP);
                     item_title.setText(item.getNewsTitle());
