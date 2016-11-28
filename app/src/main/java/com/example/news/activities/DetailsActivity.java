@@ -117,7 +117,7 @@ public class DetailsActivity extends AppCompatActivity {
                                     RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(),
                                             Bitmap.createScaledBitmap(resource, item_image.getWidth()
                                                     , item_image.getHeight(), false));
-                                    drawable.setCornerRadius(20);
+                                    drawable.setCornerRadius(80);
                                     item_image.setImageDrawable(drawable);
                                 }});
 
