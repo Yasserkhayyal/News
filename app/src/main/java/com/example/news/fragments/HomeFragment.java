@@ -64,26 +64,11 @@ public class HomeFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.news_list_view);
         //fire data request
         if(NetworkCheck.isNetworkAvailable(mContext)) {
-            new GetData().execute("http://egyptinnovate.com/en/api/v01/safe/GetNews");
-        }else{
-            Toast.makeText(mContext,"Check your internet connection and try again!",
-                    Toast.LENGTH_LONG).show();
-        }
-        return view;
-    }
-
-
-
-    private class GetData extends AsyncTask<String,Void,Void>{
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            // Get a RequestQueue
             RequestQueue queue = SingletonRequestQueue.getInstance((mContext)).
                     getRequestQueue();
 
             final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                    strings[0], null, new Response.Listener<JSONObject>() {
+                    "http://egyptinnovate.com/en/api/v01/safe/GetNews", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     String stringResponse = response.toString();
@@ -103,11 +88,14 @@ public class HomeFragment extends Fragment {
             request.setTag("NewsItems");
             queue.add(request);
 
-
-            return null;
+        }else{
+            Toast.makeText(mContext,"Check your internet connection and try again!",
+                    Toast.LENGTH_LONG).show();
         }
-
+        return view;
     }
+
+
 
 
     private void setAdapter(final List<NewsItem> list){

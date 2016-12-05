@@ -5,23 +5,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/news_list_row_bg">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/news_image"
-        app:layout_widthPercent="30%"
-        app:layout_heightPercent="82%"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/colorPrimary"
+    <RelativeLayout
+        android:id="@+id/news_image_container"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
         app:layout_marginLeftPercent="3%"
+        android:padding="2dp"
         android:layout_centerVertical="true"
-        android:contentDescription="@null" />
+        android:background="@drawable/profile_pic_background"><!--set circle drawable here -->
+
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/news_title"
         app:layout_widthPercent="39%"
         app:layout_heightPercent="41%"
         app:layout_marginLeftPercent="5%"
-        android:layout_toRightOf="@+id/news_image"
-        android:layout_alignTop ="@+id/news_image"
+        android:layout_toRightOf="@+id/news_image_container"
+        android:layout_alignTop ="@+id/news_image_container"
         android:textSize="12sp"
         android:textStyle="bold"
         android:textColor="@android:color/black" />
@@ -30,7 +36,7 @@
         android:id="@+id/news_label"
         app:layout_widthPercent="22%"
         app:layout_heightPercent="41%"
-        android:layout_alignTop="@+id/news_image"
+        android:layout_alignTop="@+id/news_image_container"
         android:scaleType="fitEnd"
         android:layout_alignParentRight="true"/>
 
@@ -39,8 +45,8 @@
         app:layout_widthPercent="25%"
         app:layout_heightPercent="41%"
         app:layout_marginLeftPercent="5%"
-        android:layout_toRightOf="@+id/news_image"
-        android:layout_alignBottom="@+id/news_image"
+        android:layout_toRightOf="@+id/news_image_container"
+        android:layout_alignBottom="@+id/news_image_container"
         android:textSize="10sp"
         android:gravity="bottom"
         android:textStyle="bold"
@@ -51,7 +57,7 @@
         app:layout_widthPercent="20%"
         app:layout_heightPercent="41%"
         android:layout_toRightOf="@+id/news_date"
-        android:layout_alignBottom="@+id/news_image"
+        android:layout_alignBottom="@+id/news_image_container"
         android:textSize="10sp"
         android:gravity="bottom"
         android:textColor="@color/colorPrimary" />
@@ -62,7 +68,7 @@
         app:layout_heightPercent="41%"
         android:textColor="@color/colorPrimary"
         android:textSize="10sp"
-        android:layout_alignBottom="@+id/news_image"
+        android:layout_alignBottom="@+id/news_image_container"
         android:gravity="bottom"
         android:layout_alignParentRight="true" />
 

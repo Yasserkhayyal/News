@@ -62,24 +62,12 @@ public class DetailsActivity extends AppCompatActivity {
         super.onStart();
         String newsId = getIntent().getStringExtra(Constants.NEWS_ID_EXTRA);
         if(NetworkCheck.isNetworkAvailable(this)) {
-            new GetData().execute("http://egyptinnovate.com/en/api/v01/safe/GetNewsDetails?nid=" + newsId);
-        }else{
-            Toast.makeText(this,"Check your internet connection and try again!",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    private class GetData extends AsyncTask<String,Void,Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            // Get a RequestQueue
-            RequestQueue queue = SingletonRequestQueue.getInstance(DetailsActivity.this).
+            RequestQueue queue = SingletonRequestQueue.getInstance(this).
                     getRequestQueue();
 
             final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                    strings[0], null, new Response.Listener<JSONObject>() {
+                    "http://egyptinnovate.com/en/api/v01/safe/GetNewsDetails?nid=" + newsId,
+                    null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     String stringResponse = response.toString();
@@ -87,6 +75,7 @@ public class DetailsActivity extends AppCompatActivity {
                     news = news.parseJSON(stringResponse);
                     newsItem = news.getNewsItem();
                     setViews(newsItem);
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -95,43 +84,38 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             });
 
-            request.setTag("NewsDetails");
+            request.setTag("NewsItems");
             queue.add(request);
-
-            return null;
+        }else{
+            Toast.makeText(this,"Check your internet connection and try again!",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
-
     private void setViews(final NewsItem item){
         if(item!=null){
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    supportInvalidateOptionsMenu();
-                    Glide.with(DetailsActivity.this).load(item.getImageUrl()).asBitmap()
-                            .placeholder(R.drawable.news_image_placeholder).centerCrop()
-                            .into(new BitmapImageViewTarget(item_image) {
-                                @Override
-                                protected void setResource(Bitmap resource) {
-                                    RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(),
-                                            Bitmap.createScaledBitmap(resource, item_image.getWidth()
-                                                    , item_image.getHeight(), false));
-                                    drawable.setCornerRadius(80);
-                                    item_image.setImageDrawable(drawable);
-                                }});
+            supportInvalidateOptionsMenu();
+            Glide.with(DetailsActivity.this)
+                    .load(item.getImageUrl()).asBitmap()
+                    .placeholder(R.drawable.news_image_placeholder).centerCrop()
+                    .into(new BitmapImageViewTarget(item_image) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(),
+                                    Bitmap.createScaledBitmap(resource, item_image.getWidth()
+                                            , item_image.getHeight(), false));
+                            drawable.setCornerRadius(80);
+                            item_image.setImageDrawable(drawable);
+                        }});
 
-                    item_image.setColorFilter(0X33000000, PorterDuff.Mode.SRC_ATOP);
-                    item_title.setText(item.getNewsTitle());
-                    date_tv.setText(item.getPostDate());
-                    String likes_string = "Likes("+newsItem.getLikes()+")";
-                    likes_tv.setText(likes_string);
-                    String views_string = newsItem.getNumOfViews() + " views";
-                    shows_text_view.setText(views_string);
-                    news_description.setText(item.getItemDescription());
-                }
-            });
-
+            item_image.setColorFilter(0X33000000, PorterDuff.Mode.SRC_ATOP);
+            item_title.setText(item.getNewsTitle());
+            date_tv.setText(item.getPostDate());
+            String likes_string = "Likes("+newsItem.getLikes()+")";
+            likes_tv.setText(likes_string);
+            String views_string = newsItem.getNumOfViews() + " views";
+            shows_text_view.setText(views_string);
+            news_description.setText(item.getItemDescription());
         }
 
     }

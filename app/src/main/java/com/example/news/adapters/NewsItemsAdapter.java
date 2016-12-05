@@ -23,6 +23,7 @@ import com.example.news.utils.NewsItem;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Mohamed Yasser on 11/26/2016.
@@ -62,20 +63,11 @@ public class NewsItemsAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        final CircleImageView imageView = viewHolder.news_image;
         Glide.with(mContext).load(newsItems.get(position).getImageUrl())
-                .asBitmap()
                 .priority(Priority.IMMEDIATE)
                 .placeholder(R.drawable.news_image_placeholder).centerCrop()
-                .into(new BitmapImageViewTarget(imageView) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(mContext.getResources(),
-                                Bitmap.createScaledBitmap(resource, imageView.getWidth()
-                                        , imageView.getHeight(), false));
-                        drawable.setCircular(true);
-                        imageView.setImageDrawable(drawable);
-                    }});
+                .bitmapTransform(new CropCircleTransformation(mContext))//<= For Circuler image
+                .into(viewHolder.news_image);
 
         viewHolder.news_title.setText(newsItems.get(position).getNewsTitle());
         if(newsItems.get(position).getNewsType().equals("84")){ //article news
@@ -94,11 +86,11 @@ public class NewsItemsAdapter extends BaseAdapter {
 
     private static class ViewHolder{
         ImageView news_label;
-        CircleImageView news_image;
+        ImageView news_image;
         TextView news_title,news_date,news_likes,news_views;
 
         public ViewHolder(View view){
-            news_image = (CircleImageView) view.findViewById(R.id.news_image);
+            news_image = (ImageView) view.findViewById(R.id.news_image);
             news_label = (ImageView) view.findViewById(R.id.news_label);
             news_title = (TextView) view.findViewById(R.id.news_title);
             news_date = (TextView) view.findViewById(R.id.news_date);
